@@ -31,8 +31,8 @@ RUN pnpm prisma generate
 # Build TypeScript code
 RUN pnpm build
 
-# Remove development dependencies
-RUN pnpm prune --prod
+# Keep Prisma CLI while removing other dev dependencies
+RUN pnpm install prisma --save-dev && pnpm prune --prod && pnpm install prisma --save-dev
 
 EXPOSE 4000
 
