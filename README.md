@@ -10,7 +10,7 @@ This project is designed for easy setup and review:
 
    ```bash
    git clone nawy-apartments-assesment
-   cd nawy-apartments
+   cd nawy-apartments-assesment
    docker compose up --build
    ```
 
@@ -43,7 +43,7 @@ Nawy Apartments is a comprehensive platform that allows users to browse and filt
 This project is organized as a monorepo using pnpm workspaces:
 
 ```
-nawy-apartments/
+nawy-apartments-assesment/
 ├── apps/
 │   ├── backend/             # Node.js Express backend
 │   │   ├── prisma/          # Database schema and migrations
@@ -95,25 +95,6 @@ nawy-apartments/
 - [pnpm](https://pnpm.io/installation) (for local development)
 - [Node.js](https://nodejs.org/) version 18 or higher
 - [VS Code](https://code.visualstudio.com/) (optional, for DevContainer support)
-
-## Quick Start
-
-1. Clone the repository:
-
-   ```
-   git clone nawy-apartments
-   cd nawy-apartments
-   ```
-
-2. Start the application:
-
-   ```
-   docker compose up --build
-   ```
-
-3. Access the application:
-   - Frontend: http://localhost:3000
-   - Backend API: http://localhost:4000
 
 ## Development Setup
 
