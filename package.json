@@ -1,0 +1,32 @@
+{
+  "name": "nawy-apartments",
+  "version": "1.0.0",
+  "description": "Nawy Apartments - Software Engineer Hiring Assignment",
+  "private": true,
+  "scripts": {
+    "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,md}\"",
+    "dev": "pnpm -r run dev",
+    "build": "pnpm -r run build",
+    "seed": "cd apps/backend && prisma db seed"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^24.0.4",
+    "prettier": "^3.1.0",
+    "prisma": "^6.10.1",
+    "ts-node": "^10.9.2"
+  },
+  "pnpm": {
+    "workspaces": [
+      "apps/*"
+    ]
+  },
+  "dependencies": {
+    "@prisma/client": "^6.10.1"
+  },
+  "prisma": {
+    "seed": "ts-node prisma/seed.ts"
+  }
+}

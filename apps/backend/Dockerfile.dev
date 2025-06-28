@@ -1,0 +1,45 @@
+FROM node:18-alpine
+
+WORKDIR /app
+
+# Install system dependencies including OpenSSL
+RUN apk add --no-cache openssl libc6-compat
+
+# Install pnpm globally
+RUN npm install -g pnpm
+
+# Install dependencies first
+COPY package.json ./
+COPY prisma ./prisma/
+
+# Install dependencies (including dev dependencies)
+RUN pnpm install --no-frozen-lockfile
+
+# Copy the rest of the application
+COPY . .
+
+# Generate Prisma client inside the container with correct binary target
+RUN pnpm prisma generate
+
+EXPOSE 4000
+
+# Create entrypoint script
+COPY <<EOF /docker-entrypoint.dev.sh
+#!/bin/sh
+# Regenerate Prisma client
+pnpm prisma generate
+
+# Wait for database to be ready...
+echo "Waiting for database to be ready..."
+pnpm prisma migrate deploy
+pnpm prisma db seed
+
+# Start development server
+echo "Starting development server..."
+pnpm dev
+EOF
+
+# Make entrypoint executable
+RUN chmod +x /docker-entrypoint.dev.sh
+
+CMD ["/docker-entrypoint.dev.sh"]
