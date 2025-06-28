@@ -9,7 +9,7 @@ This project is designed for easy setup and review:
 1. **Clone and start the project:**
 
    ```bash
-   git clone nawy-apartments
+   git clone nawy-apartments-assesment
    cd nawy-apartments
    docker compose up --build
    ```
