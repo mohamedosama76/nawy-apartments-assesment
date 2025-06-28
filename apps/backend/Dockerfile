@@ -32,5 +32,19 @@ RUN pnpm prune --prod
 
 EXPOSE 4000
 
-# Wait for database, run migrations, seed the database, then start
-CMD ["/bin/sh", "-c", "pnpm prisma migrate deploy && pnpm prisma db seed && node dist/index.js"]
+# Create startup script
+COPY <<EOF /docker-entrypoint.sh
+#!/bin/sh
+# Ensure Prisma client is available
+if [ ! -d "/app/node_modules/.prisma" ]; then
+  echo "Regenerating Prisma client..."
+  pnpm prisma generate
+fi
+
+# Run migrations and start the application
+pnpm prisma migrate deploy && pnpm prisma db seed && node dist/index.js
+EOF
+
+RUN chmod +x /docker-entrypoint.sh
+
+CMD ["/docker-entrypoint.sh"]
