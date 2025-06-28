@@ -18,6 +18,10 @@ RUN pnpm install --no-frozen-lockfile
 # Generate Prisma client
 RUN pnpm prisma generate
 
+# Copy the entrypoint script first
+COPY docker-entrypoint.sh /docker-entrypoint.sh
+RUN chmod +x /docker-entrypoint.sh
+
 # Copy the rest of the application
 COPY . .
 
@@ -31,20 +35,5 @@ RUN pnpm build
 RUN pnpm prune --prod
 
 EXPOSE 4000
-
-# Create startup script
-COPY <<EOF /docker-entrypoint.sh
-#!/bin/sh
-# Ensure Prisma client is available
-if [ ! -d "/app/node_modules/.prisma" ]; then
-  echo "Regenerating Prisma client..."
-  pnpm prisma generate
-fi
-
-# Run migrations and start the application
-pnpm prisma migrate deploy && pnpm prisma db seed && node dist/index.js
-EOF
-
-RUN chmod +x /docker-entrypoint.sh
 
 CMD ["/docker-entrypoint.sh"]
